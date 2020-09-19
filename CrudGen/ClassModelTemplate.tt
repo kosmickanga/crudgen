@@ -15,7 +15,7 @@ using System.Linq;
 // Created <#= DateTime.Now #>
 // CrudGen V<#= Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version #>
 
-namespace something 
+namespace <#= _namespace #> 
 {
 <# foreach (var @class in _model.Classes) 
 { #>
@@ -23,6 +23,11 @@ namespace something
     {
 <#  foreach (var field in @class.Fields) 
   { 
+#>
+<#    if (field.Required)
+      { #>
+        [Required]
+<#    }
 #>
 <#    if (field.Key) 
       { #>
@@ -39,5 +44,4 @@ namespace something
 <#
 } 
 #>
-
 }

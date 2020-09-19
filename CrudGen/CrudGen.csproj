@@ -6,6 +6,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="CrudServiceTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CrudServiceTemplate.tt</DependentUpon>
+    </None>
+    <None Include="DataContextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataContextTemplate.tt</DependentUpon>
+    </None>
+    <None Include="GridServiceTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GridServiceTemplate.tt</DependentUpon>
+    </None>
+    <None Include="GridViewTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GridViewTemplate.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
@@ -15,12 +38,53 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ClassModelTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="CrudServiceTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CrudServiceTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DataContextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataContextTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="GridServiceTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GridServiceTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="GridViewTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GridViewTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="ServiceTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServiceTemplate.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <None Update="ClassModelTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ClassModelTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="CrudServiceTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CrudServiceTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="DataContextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DataContextTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="GridServiceTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GridServiceTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="GridViewTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GridViewTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

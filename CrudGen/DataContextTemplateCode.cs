@@ -4,15 +4,15 @@ using System.Text;
 
 namespace CrudGen
 {
-    public partial class ClassModelTemplate
+    public partial class DataContextTemplate
     {
         private readonly Model _model;
         private readonly string _namespace;
 
-        public ClassModelTemplate(Model model, string @namespace)
+        public DataContextTemplate(Model model, string @namespace)
         {
             _model = model;
-            _namespace = @namespace;
+            this._namespace = @namespace;
         }
     }
 }
