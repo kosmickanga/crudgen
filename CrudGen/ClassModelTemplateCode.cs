@@ -14,5 +14,11 @@ namespace CrudGen
             _model = model;
             _namespace = @namespace;
         }
+
+        public string GetDisplay(Class @class)
+        {
+            // TODO - improve what can be displayed.
+            return $"public string Display => {@class.Display};";
+        }
     }
 }

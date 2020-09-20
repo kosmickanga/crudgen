@@ -26,6 +26,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GridViewTemplate.tt</DependentUpon>
     </None>
+    <None Include="LookupServiceTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LookupServiceTemplate.tt</DependentUpon>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +63,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GridViewTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="LookupServiceTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LookupServiceTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="ServiceTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -85,6 +95,10 @@
     <None Update="GridViewTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>GridViewTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="LookupServiceTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>LookupServiceTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

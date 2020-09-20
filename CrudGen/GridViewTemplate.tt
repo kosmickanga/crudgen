@@ -15,6 +15,13 @@
 @inject <#= _gridServiceName #> GridService
 @inject <#= _crudServiceName #> CrudService
 
+<# foreach (var r in GetRefFieldNames()) {
+#>
+@inject <#= LookupServiceName(r) #> <#= LookupServiceInst(r) #>
+<#
+}
+#>
+
 @*
 @inject CustomerService customerService
 *@

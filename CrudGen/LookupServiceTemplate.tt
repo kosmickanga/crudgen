@@ -1,0 +1,35 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".txt" #>
+
+using <#= _namespace #>.Data;
+using CrudGen.Runtime;
+using GridShared;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace <#= _namespace #>
+{
+    public class <#= _serviceName #>
+    {
+        IDbContextFactory<<#= _appContext #>> _factory;
+        public <#= _serviceName #>(IDbContextFactory<<#= _appContext #>> factory)
+        {
+            _factory = factory;
+        }
+        public async Task<IEnumerable<SelectItem>> GetAllAsync()
+        {
+            using var context = _factory.CreateDbContext();
+
+            var items = await context.<#= _class.Name #>.ToListAsync();
+
+            return items.Select(x => new SelectItem(x.<#= _id #>.ToString(), x.Display));
+        }
+    }
+}

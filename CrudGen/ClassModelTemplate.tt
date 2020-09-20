@@ -36,11 +36,30 @@ namespace <#= _namespace #>
 <#    if (!string.IsNullOrEmpty(field.DbType)) { #>
         [Column(TypeName="<#= field.DbType #>")]
 <#    } #>
+<#    if (field.IsReference) 
+      { #>
+        public <#=field.DataType #> <#= field.ReferenceName #> { get; set; }
+<#    } else 
+      { #>
         public <#=field.DataType #> <#= field.Name #> { get; set; }
+<#    } #>
 <#} #>
         [Timestamp]
         public byte[] Timestamp { get; set; }
-    }
+        
+        // Navigation Properties
+<#  foreach (var field in @class.Fields.Where(x => x.IsReference)) 
+  {
+#>
+        public <#=field.References #> <#= field.Name #> { get; set; }
+<#} #>
+<#   if (!string.IsNullOrEmpty(@class.Display)) {
+#>
+        <#= GetDisplay(@class) #>
+<#
+  }
+#>
+  }
 <#
 } 
 #>

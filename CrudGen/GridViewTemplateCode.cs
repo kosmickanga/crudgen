@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CrudGen
@@ -23,6 +24,19 @@ namespace CrudGen
             _crudServiceName = crudServiceName;
         }
 
+        private IEnumerable<string> GetRefFieldNames() => _class.Fields.Where(x => x.IsReference).Select(x => x.References).Distinct();
+
+        private string LookupServiceName(string name)
+        {
+            return $"{name}LookupService";
+        }
+        private string LookupServiceInst(string name)
+        {
+            var lookupServiceName = LookupServiceName(name);
+            return Char.ToLower(lookupServiceName[0]) + lookupServiceName.Substring(1);
+        }
+
+
         private string GenerateColumn(Field f)
         {
             //                c.Add(o => o.Id).SetPrimaryKey(true);
@@ -34,8 +48,23 @@ namespace CrudGen
             c.Add(o => o.Customer.Name);
             c.Add(o => o.Customer.Email);
             */
-            var result = $"c.Add(o => o.{f.Name}){(f.Key ? ".SetPrimaryKey(true)" : "")};";
-            return result;
+            if (f.IsReference)
+            {
+                //XXXlookupService
+                var selectField = $"SetSelectField(true, o => o.{f.Name}.Display, {LookupServiceInst(f.References)}.GetAllAsync)";
+                var result = $"c.Add(o => o.{ f.ReferenceName}, true).Titled(\"{f.Name}\").{selectField};";
+                var result2 = $"c.Add(o => o.{f.Name}.Display).Titled(\"{f.Name}\").SetCrudHidden(true);";
+                return result + "\r\n                " + result2;
+                //c.Add(o => o.Country.Name).Titled("Country").SetCrudHidden(true);
+                //c.Add(o => o.CountryId, true).SetSelectField(true, o => o.CountryId.ToString(), countryLookupService.GetAllAsync).Titled("Country");
+
+                // return result;
+            }
+            else
+            {
+                var result = $"c.Add(o => o.{f.Name}){(f.Key ? ".SetPrimaryKey(true)" : "")};";
+                return result;
+            }
         }
     }
 }
