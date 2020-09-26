@@ -130,6 +130,7 @@ namespace BlazorServerWeb_CSharp
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 #endif
             services.AddSingleton<WeatherForecastService>();
+            services.AddDbContext<CrudDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped, ServiceLifetime.Singleton);
             services.AddDbContextFactory<CrudDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddCrudServices();
         }

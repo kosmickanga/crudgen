@@ -6,7 +6,8 @@
     <Description>Runtime for Crudgen.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Version>1.0.1</Version>    
   </PropertyGroup>
 
   <ItemGroup>

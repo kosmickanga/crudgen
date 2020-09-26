@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudGen", "CrudGen\CrudGen.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A7C2F338-D4D8-4A74-8ED3-C9ED5A40FC57}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudGen.Runtime", "CrudGen.Runtime\CrudGen.Runtime.csproj", "{B4B2BE90-E1A6-4AFE-8B4E-6C3CA62571C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{2AF6F407-8D54-403D-A94F-DE28AB624633}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AF6F407-8D54-403D-A94F-DE28AB624633}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AF6F407-8D54-403D-A94F-DE28AB624633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4B2BE90-E1A6-4AFE-8B4E-6C3CA62571C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4B2BE90-E1A6-4AFE-8B4E-6C3CA62571C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4B2BE90-E1A6-4AFE-8B4E-6C3CA62571C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4B2BE90-E1A6-4AFE-8B4E-6C3CA62571C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -37,10 +37,6 @@ namespace CrudGen.Runtime
                 sp => GetOptions<TContext>(optionsAction, sp),
                 contextAndOptionsLifetime));
 
-            
-            // need the context for migrations.
-            collection.Add(new ServiceDescriptor(typeof(TContext), typeof(TContext), ServiceLifetime.Scoped));
-
             return collection;
         }
 
