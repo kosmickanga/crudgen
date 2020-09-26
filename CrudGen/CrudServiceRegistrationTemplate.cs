@@ -18,9 +18,9 @@ namespace CrudGen
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+    #line 1 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceRegistrationTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class GridServiceTemplate : GridServiceTemplateBase
+    public partial class CrudServiceRegistrationTemplate : CrudServiceRegistrationTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,100 +28,44 @@ namespace CrudGen
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"
-using CrudGen.Runtime;
-using GridMvc.Server;
-using GridShared;
-using GridShared.Utility;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ");
+            this.Write("\r\nusing Microsoft.Extensions.DependencyInjection;\r\nusing System;\r\nusing System.Co" +
+                    "llections.Generic;\r\nusing System.Linq;\r\nusing System.Threading.Tasks;\r\nusing ");
             
-            #line 19 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+            #line 13 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceRegistrationTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_namespace));
             
             #line default
             #line hidden
-            this.Write(".Data;\r\nnamespace ");
+            this.Write(".Services;\r\n\r\nnamespace ");
             
-            #line 20 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+            #line 15 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceRegistrationTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_namespace));
             
             #line default
             #line hidden
-            this.Write(".Services\r\n{\r\n\tpublic class ");
+            this.Write("\r\n{\r\n    public static class CrudServiceRegistration\r\n    {\r\n        public stati" +
+                    "c void AddCrudServices(this IServiceCollection services)\r\n        {\r\n");
             
-            #line 22 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_serviceName));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    {\r\n        IDbContextFactory<");
-            
-            #line 24 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_context));
+            #line 21 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceRegistrationTemplate.tt"
+ foreach (var s in _servicesToRegister) { 
             
             #line default
             #line hidden
-            this.Write("> _factory;\r\n        public ");
+            this.Write("            services.AddSingleton<");
             
-            #line 25 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_serviceName));
-            
-            #line default
-            #line hidden
-            this.Write("(IDbContextFactory<");
-            
-            #line 25 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_context));
+            #line 22 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceRegistrationTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(s));
             
             #line default
             #line hidden
-            this.Write("> factory)\r\n        {\r\n            _factory = factory;\r\n        }\r\n        public" +
-                    " ItemsDTO<");
+            this.Write(">();\r\n");
             
-            #line 29 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_type));
-            
-            #line default
-            #line hidden
-            this.Write("> GetGridRows(Action<IGridColumnCollection<");
-            
-            #line 29 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_type));
+            #line 23 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceRegistrationTemplate.tt"
+ } 
             
             #line default
             #line hidden
-            this.Write(">> columns,\r\n            QueryDictionary<StringValues> query)\r\n        {\r\n       " +
-                    "     using var context = _factory.CreateDbContext();\r\n            \r\n            " +
-                    "var items = context.");
-            
-            #line 34 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_query));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n\r\n            var server = new GridServer<");
-            
-            #line 36 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_type));
-            
-            #line default
-            #line hidden
-            this.Write(">(items, new QueryCollection(query), true, \"");
-            
-            #line 36 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_gridName));
-            
-            #line default
-            #line hidden
-            this.Write("\", columns, 10);\r\n            server.Sortable(true).Filterable(true).WithGridItem" +
-                    "sCount();\r\n\r\n            return server.ItemsToDisplay;\r\n        }\r\n    }\r\n\r\n\r\n}");
+            this.Write("        }\r\n    }\r\n\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -133,7 +77,7 @@ using ");
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class GridServiceTemplateBase
+    public class CrudServiceRegistrationTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

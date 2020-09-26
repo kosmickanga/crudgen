@@ -44,7 +44,7 @@ namespace CrudGen
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    public class ");
+            this.Write(".Services\r\n{\r\n    public class ");
             
             #line 19 "C:\Users\bahor\source\repos\CrudGen\CrudGen\LookupServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_serviceName));

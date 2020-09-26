@@ -11,6 +11,7 @@
 @using GridShared.Utility
 @using Microsoft.Extensions.Primitives
 @using <#= _namespace #>.Data;
+@using <#= _namespace #>.Services;
 
 @inject <#= _gridServiceName #> GridService
 @inject <#= _crudServiceName #> CrudService

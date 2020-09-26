@@ -43,23 +43,30 @@ namespace CrudGen
             
             #line default
             #line hidden
-            this.Write(".Data;\r\n\r\n@inject ");
+            this.Write(".Data;\r\n@using ");
             
-            #line 15 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 14 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(_namespace));
+            
+            #line default
+            #line hidden
+            this.Write(".Services;\r\n\r\n@inject ");
+            
+            #line 16 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_gridServiceName));
             
             #line default
             #line hidden
             this.Write(" GridService\r\n@inject ");
             
-            #line 16 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 17 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_crudServiceName));
             
             #line default
             #line hidden
             this.Write(" CrudService\r\n\r\n");
             
-            #line 18 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 19 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
  foreach (var r in GetRefFieldNames()) {
 
             
@@ -67,21 +74,21 @@ namespace CrudGen
             #line hidden
             this.Write("@inject ");
             
-            #line 20 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 21 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(LookupServiceName(r)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 20 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 21 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(LookupServiceInst(r)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 21 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 22 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
 
 }
 
@@ -91,7 +98,7 @@ namespace CrudGen
             this.Write("\r\n@*\r\n@inject CustomerService customerService\r\n*@\r\n\r\n@if (_task.IsCompleted)\r\n{\r\n" +
                     "    <GridComponent T=\"");
             
-            #line 31 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 32 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
@@ -99,7 +106,7 @@ namespace CrudGen
             this.Write("\" Grid=\"@_grid\"></GridComponent>\r\n}\r\nelse\r\n{\r\n    <p><em>Loading...</em></p>\r\n}\r\n" +
                     "\r\n@code {\r\n        private CGrid<");
             
-            #line 39 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 40 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
@@ -107,14 +114,14 @@ namespace CrudGen
             this.Write("> _grid;\r\n        private Task _task;\r\n\r\n        protected override async Task On" +
                     "ParametersSetAsync()\r\n        {\r\n            Action<IGridColumnCollection<");
             
-            #line 44 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 45 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
             #line hidden
             this.Write(">> columns = c =>\r\n            {\r\n");
             
-            #line 46 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 47 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
  foreach (var f in _class.Fields) 
 { 
             
@@ -122,14 +129,14 @@ namespace CrudGen
             #line hidden
             this.Write("                ");
             
-            #line 48 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 49 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenerateColumn(f)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 49 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 50 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
  } 
             
             #line default
@@ -138,14 +145,14 @@ namespace CrudGen
                     "           query.Add(\"grid-page\", \"2\");\r\n\r\n            var client = new GridClie" +
                     "nt<");
             
-            #line 55 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 56 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
             #line hidden
             this.Write(">(q => GridService.GetGridRows(columns, q), query, false, \"");
             
-            #line 55 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 56 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default

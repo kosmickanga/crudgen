@@ -29,44 +29,51 @@ namespace CrudGen
         public virtual string TransformText()
         {
             this.Write("using GridShared;\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System" +
-                    ".Linq;\r\nusing System.Threading.Tasks;\r\nusing CrudGen.Runtime;\r\n\r\nnamespace ");
+                    ".Linq;\r\nusing System.Threading.Tasks;\r\nusing CrudGen.Runtime;\r\nusing ");
             
-            #line 14 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 13 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_namespace));
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    public class ");
+            this.Write(".Data;\r\n\r\nnamespace ");
             
-            #line 16 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 15 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(_namespace));
+            
+            #line default
+            #line hidden
+            this.Write(".Services\r\n{\r\n    public class ");
+            
+            #line 17 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_serviceName));
             
             #line default
             #line hidden
             this.Write(" : ICrudDataService<");
             
-            #line 16 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 17 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_class));
             
             #line default
             #line hidden
             this.Write(">\r\n    {\r\n        private readonly IDbContextFactory<");
             
-            #line 18 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 19 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_dataContext));
             
             #line default
             #line hidden
             this.Write("> _contextFactory;\r\n\r\n        public ");
             
-            #line 20 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 21 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_serviceName));
             
             #line default
             #line hidden
             this.Write("(IDbContextFactory<");
             
-            #line 20 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 21 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_dataContext));
             
             #line default
@@ -75,7 +82,7 @@ namespace CrudGen
                     " public async Task Delete(params object[] keys)\r\n        {\r\n            using va" +
                     "r inst = _contextFactory.CreateDbContext();\r\n            var item = await inst.");
             
-            #line 27 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 28 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_class));
             
             #line default
@@ -84,7 +91,7 @@ namespace CrudGen
                     "inst.Remove(item);\r\n                await inst.SaveChangesAsync();\r\n            " +
                     "}\r\n        }\r\n\r\n        public async Task<");
             
-            #line 35 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 36 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_class));
             
             #line default
@@ -92,7 +99,7 @@ namespace CrudGen
             this.Write("> Get(params object[] keys)\r\n        {\r\n            using var inst = _contextFact" +
                     "ory.CreateDbContext();\r\n            var result = await inst.");
             
-            #line 38 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 39 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_class));
             
             #line default
@@ -100,7 +107,7 @@ namespace CrudGen
             this.Write(".FindAsync(keys);\r\n            return result;\r\n        }\r\n\r\n        public async " +
                     "Task Insert(");
             
-            #line 42 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 43 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_class));
             
             #line default
@@ -108,7 +115,7 @@ namespace CrudGen
             this.Write(" item)\r\n        {\r\n            using var inst = _contextFactory.CreateDbContext()" +
                     ";\r\n            inst.");
             
-            #line 45 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 46 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_class));
             
             #line default
@@ -116,7 +123,7 @@ namespace CrudGen
             this.Write(".Add(item);\r\n            await inst.SaveChangesAsync();\r\n        }\r\n\r\n        pub" +
                     "lic async Task Update(");
             
-            #line 49 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 50 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_class));
             
             #line default
@@ -124,7 +131,7 @@ namespace CrudGen
             this.Write(" item)\r\n        {\r\n            using var inst = _contextFactory.CreateDbContext()" +
                     ";\r\n            inst.");
             
-            #line 52 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
+            #line 53 "C:\Users\bahor\source\repos\CrudGen\CrudGen\CrudServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_class));
             
             #line default

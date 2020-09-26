@@ -1,0 +1,27 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".txt" #>
+
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using <#= _namespace #>.Services;
+
+namespace <#= _namespace #>
+{
+    public static class CrudServiceRegistration
+    {
+        public static void AddCrudServices(this IServiceCollection services)
+        {
+<# foreach (var s in _servicesToRegister) { #>
+            services.AddSingleton<<#= s #>>();
+<# } #>
+        }
+    }
+
+}

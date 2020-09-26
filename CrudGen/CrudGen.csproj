@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="CrudServiceRegistrationTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CrudServiceRegistrationTemplate.tt</DependentUpon>
+    </None>
     <None Include="CrudServiceTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -43,6 +48,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ClassModelTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="CrudServiceRegistrationTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CrudServiceRegistrationTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="CrudServiceTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -79,6 +89,10 @@
     <None Update="ClassModelTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ClassModelTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="CrudServiceRegistrationTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CrudServiceRegistrationTemplate.cs</LastGenOutput>
     </None>
     <None Update="CrudServiceTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

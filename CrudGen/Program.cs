@@ -10,7 +10,7 @@ namespace CrudGen
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("CrudGen generating crud");
 
             var sr = new XmlSerializer(typeof(Model));
             var model = new Model
@@ -45,32 +45,38 @@ namespace CrudGen
             sr.Serialize(file, model);
             // https://docs.microsoft.com/en-us/visualstudio/modeling/run-time-text-generation-with-t4-text-templates?view=vs-2019;
 
-            var ns = "TestApp";
-            var nsd = "TestApp.Data";
-            var rootFolder = @"C:\users\bahor\source\TestApp";
+            var ns = "TestY";
+            var rootFolder = @"C:\users\bahor\source\repos\TestY";
+            var appContext = "CrudDbContext";
 
-            var template = new ClassModelTemplate(model, nsd);
+            var template = new ClassModelTemplate(model, ns);
             var content = template.TransformText();
             var dataFolder = Path.Combine(rootFolder, "Data");
             var modelDest = Path.Combine(dataFolder, "Model.cs");
+            var servicesFolder = Path.Combine(rootFolder, "Services");
+
             Directory.CreateDirectory(dataFolder);
+            Directory.CreateDirectory(servicesFolder);
 
             File.WriteAllText(modelDest, content);
-            var dcTemplate = new DataContextTemplate(model, ns);
+            var dcTemplate = new DataContextTemplate(model, ns, appContext);
             var dcContent = dcTemplate.TransformText();
-            var dcDest = Path.Combine(rootFolder, "AppDbContext.cs");
+            var dcDest = Path.Combine(dataFolder, "CrudDbContext.cs");
             File.WriteAllText(dcDest, dcContent);
-            var appContext = "AppDbContext";
+            var servicesToRegister = new List<string>();
+
             foreach (var m in model.Classes)
             {
                 var references = m.Fields.Where(x => x.IsReference);
                 var includes = string.Join("", references.Select(r => $".Include(x => x.{r.Name})"));
 
                 var query = $"{m.Name}{includes}.ToList()"; //context.Invoice.Include(x => x.InvoiceLines).Include(x => x.Customer).ToList();
-                var gridTemplate = new GridServiceTemplate(ns, m.Name + "GridService", appContext, m.Name, query, m.Name + "Grid");
-                var dest = Path.Combine(rootFolder, m.Name + "GridService.cs");
+                var className = m.Name + "GridService";
+                var gridTemplate = new GridServiceTemplate(ns, className, appContext, m.Name, query, m.Name + "Grid");
+                var dest = Path.Combine(servicesFolder, className + ".cs");
                 var gridServiceContent = gridTemplate.TransformText();
                 File.WriteAllText(dest, gridServiceContent);
+                servicesToRegister.Add(className);
             }
             foreach (var m in model.Classes)
             {
@@ -83,19 +89,27 @@ namespace CrudGen
             }
             foreach (var m in model.Classes)
             {
-                var crudServiceTemplate = new CrudServiceTemplate(nsd, m.Name + "CrudService", appContext, m.Name);
+                var className = m.Name + "CrudService";
+                var crudServiceTemplate = new CrudServiceTemplate(ns, className, appContext, m.Name);
                 var crudServiceContent = crudServiceTemplate.TransformText();
-                var dest = Path.Combine(dataFolder, m.Name + "CrudService.cs");
+                var dest = Path.Combine(servicesFolder, className + ".cs");
                 File.WriteAllText(dest, crudServiceContent);
+                servicesToRegister.Add(className);
             }
             foreach (var reference in model.Classes.SelectMany(x => x.Fields).Where(x => x.IsReference).Select(x => x.References).Distinct())
             {
                 var @class = model.Classes.First(x => x.Name == reference);
-                var lookupServiceTemplate = new LookupServiceTemplate(appContext, ns, @class.Name + "LookupService", @class.Key.Name, @class);
+                var className = @class.Name + "LookupService";
+                var lookupServiceTemplate = new LookupServiceTemplate(appContext, ns, className, @class.Key.Name, @class);
                 var lsContent = lookupServiceTemplate.TransformText();
-                var dest = Path.Combine(rootFolder, @class.Name + "LookupService.cs");
+                var dest = Path.Combine(servicesFolder, className + ".cs");
                 File.WriteAllText(dest, lsContent);
+                servicesToRegister.Add(className);
             }
+            var regTemplate = new CrudServiceRegistrationTemplate(ns, servicesToRegister);
+            var regContent = regTemplate.TransformText();
+            var regCsPath = Path.Combine(rootFolder, "CrudServiceRegistration.cs");
+            File.WriteAllText(regCsPath, regContent);
         }
     }
 }

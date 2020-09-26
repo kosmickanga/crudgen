@@ -8,11 +8,13 @@ namespace CrudGen
     {
         private readonly Model _model;
         private readonly string _namespace;
+        private readonly string _context;
 
-        public DataContextTemplate(Model model, string @namespace)
+        public DataContextTemplate(Model model, string @namespace, string context)
         {
             _model = model;
             this._namespace = @namespace;
+            _context = context;
         }
     }
 }

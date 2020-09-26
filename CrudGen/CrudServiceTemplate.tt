@@ -10,8 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CrudGen.Runtime;
+using <#= _namespace #>.Data;
 
-namespace <#= _namespace #>
+namespace <#= _namespace #>.Services
 {
     public class <#= _serviceName #> : ICrudDataService<<#= _class #>>
     {

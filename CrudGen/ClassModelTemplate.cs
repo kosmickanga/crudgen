@@ -52,7 +52,7 @@ namespace CrudGen
             
             #line default
             #line hidden
-            this.Write(" \r\n{\r\n");
+            this.Write(".Data \r\n{\r\n");
             
             #line 20 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
  foreach (var @class in _model.Classes) 

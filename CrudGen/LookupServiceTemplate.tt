@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace <#= _namespace #>
+namespace <#= _namespace #>.Services
 {
     public class <#= _serviceName #>
     {

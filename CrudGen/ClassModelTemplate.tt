@@ -15,7 +15,7 @@ using System.Linq;
 // Created <#= DateTime.Now #>
 // CrudGen V<#= Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version #>
 
-namespace <#= _namespace #> 
+namespace <#= _namespace #>.Data 
 {
 <# foreach (var @class in _model.Classes) 
 { #>
