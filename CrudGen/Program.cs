@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml.Serialization;
 
 namespace CrudGen
@@ -11,6 +13,9 @@ namespace CrudGen
         static void Main(string[] args)
         {
             Console.WriteLine("CrudGen generating crud");
+
+            // Templates use Invariant culture so embedded datestamps are mm/dd/yyyy.
+            var inflector = new Inflector.Inflector(Thread.CurrentThread.CurrentUICulture);
 
             var sr = new XmlSerializer(typeof(Model));
             var model = new Model
@@ -64,6 +69,7 @@ namespace CrudGen
             var dcDest = Path.Combine(dataFolder, "CrudDbContext.cs");
             File.WriteAllText(dcDest, dcContent);
             var servicesToRegister = new List<string>();
+            var navLinks = new List<NavLink>();
 
             foreach (var m in model.Classes)
             {
@@ -80,7 +86,9 @@ namespace CrudGen
             }
             foreach (var m in model.Classes)
             {
-                var gridViewTemplate = new GridViewTemplate($"/{m.Name.ToLower()}", ns, m.Name, m.Name + "GridService", m.Name + "CrudService", m);
+                var pageName = m.Name.ToLower();
+                var gridViewTemplate = new GridViewTemplate($"/{pageName}", ns, m.Name, m.Name + "GridService", m.Name + "CrudService", m);
+                navLinks.Add(new NavLink { Url = pageName, Text = inflector.Pluralize(m.Name) });
 
                 // add View to avoid class name clash with model in XXX.Data
                 var dest = Path.Combine(rootFolder, "Pages", m.Name + "View.razor");
@@ -106,10 +114,17 @@ namespace CrudGen
                 File.WriteAllText(dest, lsContent);
                 servicesToRegister.Add(className);
             }
+            
+            // Service registration with DI container
             var regTemplate = new CrudServiceRegistrationTemplate(ns, servicesToRegister);
             var regContent = regTemplate.TransformText();
             var regCsPath = Path.Combine(rootFolder, "CrudServiceRegistration.cs");
             File.WriteAllText(regCsPath, regContent);
+
+            var navMenuTemplate = new NavMenuTemplate(navLinks);
+            var navMenuPath = Path.Combine(rootFolder, "Shared", "CrudNavMenu.razor");
+            File.WriteAllText(navMenuPath, navMenuTemplate.TransformText());
+
         }
     }
 }

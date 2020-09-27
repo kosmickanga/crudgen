@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudGen", "CrudGen\CrudGen.csproj", "{2AF6F407-8D54-403D-A94F-DE28AB624633}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A7C2F338-D4D8-4A74-8ED3-C9ED5A40FC57}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudGen.Runtime", "CrudGen.Runtime\CrudGen.Runtime.csproj", "{B4B2BE90-E1A6-4AFE-8B4E-6C3CA62571C7}"
 EndProject
 Global

@@ -78,6 +78,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>LookupServiceTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="NavMenuTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NavMenuTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="ServiceTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -114,9 +119,14 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>LookupServiceTemplate.cs</LastGenOutput>
     </None>
+    <None Update="NavMenuTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>NavMenuTemplate.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Inflector.NetCore" Version="1.2.3" />
     <PackageReference Include="System.CodeDom" Version="4.7.0" />
   </ItemGroup>
 
