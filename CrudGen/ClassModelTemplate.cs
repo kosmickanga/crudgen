@@ -93,12 +93,19 @@ namespace CrudGen
             #line hidden
             
             #line 32 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
-    if (field.Key) 
+    if (field.MaxLength > 0)
       { 
             
             #line default
             #line hidden
-            this.Write("        [Key]\r\n");
+            this.Write("        [StringLength(");
+            
+            #line 34 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(field.MaxLength));
+            
+            #line default
+            #line hidden
+            this.Write(")]\r\n");
             
             #line 35 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
     } 
@@ -107,26 +114,40 @@ namespace CrudGen
             #line hidden
             
             #line 36 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+    if (field.Key) 
+      { 
+            
+            #line default
+            #line hidden
+            this.Write("        [Key]\r\n");
+            
+            #line 39 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+    } 
+            
+            #line default
+            #line hidden
+            
+            #line 40 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
     if (!string.IsNullOrEmpty(field.DbType)) { 
             
             #line default
             #line hidden
             this.Write("        [Column(TypeName=\"");
             
-            #line 37 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 41 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.DbType));
             
             #line default
             #line hidden
             this.Write("\")]\r\n");
             
-            #line 38 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 42 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
     } 
             
             #line default
             #line hidden
             
-            #line 39 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 43 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
     if (field.IsReference) 
       { 
             
@@ -134,21 +155,21 @@ namespace CrudGen
             #line hidden
             this.Write("        public ");
             
-            #line 41 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 45 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.DataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 41 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 45 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.ReferenceName));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 42 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 46 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
     } else 
       { 
             
@@ -156,27 +177,27 @@ namespace CrudGen
             #line hidden
             this.Write("        public ");
             
-            #line 44 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 48 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.DataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 44 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 48 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 45 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 49 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
     } 
             
             #line default
             #line hidden
             
-            #line 46 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 50 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
 } 
             
             #line default
@@ -184,7 +205,7 @@ namespace CrudGen
             this.Write("        [Timestamp]\r\n        public byte[] Timestamp { get; set; }\r\n        \r\n   " +
                     "     // Navigation Properties\r\n");
             
-            #line 51 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 55 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
   foreach (var field in @class.Fields.Where(x => x.IsReference)) 
   {
 
@@ -193,27 +214,27 @@ namespace CrudGen
             #line hidden
             this.Write("        public ");
             
-            #line 54 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 58 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.References));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 54 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 58 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(field.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 55 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 59 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
 } 
             
             #line default
             #line hidden
             
-            #line 56 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 60 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
    if (!string.IsNullOrEmpty(@class.Display)) {
 
             
@@ -221,14 +242,14 @@ namespace CrudGen
             #line hidden
             this.Write("        ");
             
-            #line 58 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 62 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetDisplay(@class)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 59 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 63 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
 
   }
 
@@ -237,7 +258,7 @@ namespace CrudGen
             #line hidden
             this.Write("  }\r\n");
             
-            #line 63 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
+            #line 67 "C:\Users\bahor\source\repos\CrudGen\CrudGen\ClassModelTemplate.tt"
 
 } 
 

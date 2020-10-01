@@ -29,6 +29,10 @@ namespace <#= _namespace #>.Data
         [Required]
 <#    }
 #>
+<#    if (field.MaxLength > 0)
+      { #>
+        [StringLength(<#= field.MaxLength #>)]
+<#    } #>
 <#    if (field.Key) 
       { #>
         [Key]

@@ -37,7 +37,7 @@ namespace CrudGen
         public string DefaultValue { get; set; }
 
         [XmlAttribute]
-        public string MaxLength { get; set; }
+        public int MaxLength { get; set; }
 
         [XmlAttribute]
         public string DbType { get; set; }

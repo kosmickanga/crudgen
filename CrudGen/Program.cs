@@ -29,7 +29,9 @@ namespace CrudGen
                         {
                             new Field {DataType="int", Name="Id", Required = true, Key=true},
                             new Field {DataType="string", Name="Text", Required = true, DbType="nvarchar(max)"},
-                            new Field {DataType="int", Name="Country", Required = true, References="Country"}
+                            new Field {DataType="int", Name="Country", Required = true, References="Country"},
+                            new Field {DataType="bool", Name="Done", Required = true},
+                            new Field {DataType="DateTime", Name="DueAt", Required = true},
                         },
                      },
                     new Class
@@ -38,7 +40,7 @@ namespace CrudGen
                         Fields = new List<Field>
                         {
                             new Field {DataType="int", Name="Id", Required=true, Key=true},
-                            new Field {DataType="string", Name="Name", Required=true, DbType="nvarchar(255)"}
+                            new Field {DataType="string", Name="Name", Required=true, DbType="nvarchar(255)", MaxLength=255}
                         },
                         Display = "Name"
                     }
@@ -50,8 +52,8 @@ namespace CrudGen
             sr.Serialize(file, model);
             // https://docs.microsoft.com/en-us/visualstudio/modeling/run-time-text-generation-with-t4-text-templates?view=vs-2019;
 
-            var ns = "TestY";
-            var rootFolder = @"C:\users\bahor\source\repos\TestY";
+            var ns = "TestZ";
+            var rootFolder = @"C:\users\bahor\source\repos\TestZ";
             var appContext = "CrudDbContext";
 
             var template = new ClassModelTemplate(model, ns);

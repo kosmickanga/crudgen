@@ -6,6 +6,8 @@
 <#@ import namespace="System.Reflection" #>
 <#@ output extension=".txt" #>
 @page "<#= _page #>"
+@attribute [Authorize]
+
 @using GridBlazor
 @using GridBlazor.Pages
 @using GridShared

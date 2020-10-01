@@ -43,35 +43,35 @@ namespace CrudGen
             
             #line default
             #line hidden
-            this.Write("\r\n*@\r\n\r\n");
+            this.Write("\r\n*@\r\n<AuthorizeView>\r\n    <Authorized>\r\n");
             
-            #line 15 "C:\Users\bahor\source\repos\CrudGen\CrudGen\NavMenuTemplate.tt"
+            #line 16 "C:\Users\bahor\source\repos\CrudGen\CrudGen\NavMenuTemplate.tt"
  foreach (var nl in _navLinks) { 
             
             #line default
             #line hidden
-            this.Write("<li class=\"nav-item px-3\">\r\n    <NavLink class=\"nav-link\" href=\"");
+            this.Write("        <li class=\"nav-item px-3\">\r\n            <NavLink class=\"nav-link\" href=\"");
             
-            #line 17 "C:\Users\bahor\source\repos\CrudGen\CrudGen\NavMenuTemplate.tt"
+            #line 18 "C:\Users\bahor\source\repos\CrudGen\CrudGen\NavMenuTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(nl.Url));
             
             #line default
             #line hidden
-            this.Write("\">\r\n        <span class=\"oi oi-list-rich\" aria-hidden=\"true\"></span> ");
+            this.Write("\">\r\n                <span class=\"oi oi-list-rich\" aria-hidden=\"true\"></span> ");
             
-            #line 18 "C:\Users\bahor\source\repos\CrudGen\CrudGen\NavMenuTemplate.tt"
+            #line 19 "C:\Users\bahor\source\repos\CrudGen\CrudGen\NavMenuTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(nl.Text));
             
             #line default
             #line hidden
-            this.Write("\r\n    </NavLink>\r\n</li>\r\n");
+            this.Write("\r\n            </NavLink>\r\n        </li>\r\n");
             
-            #line 21 "C:\Users\bahor\source\repos\CrudGen\CrudGen\NavMenuTemplate.tt"
+            #line 22 "C:\Users\bahor\source\repos\CrudGen\CrudGen\NavMenuTemplate.tt"
   } 
             
             #line default
             #line hidden
-            this.Write("\r\n@code {\r\n\r\n}\r\n");
+            this.Write("    </Authorized>\r\n</AuthorizeView>\r\n\r\n@code {\r\n\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
