@@ -74,31 +74,63 @@ namespace CrudGen
             #line default
             #line hidden
             this.Write("> options) : base(options)\r\n        {\r\n        }\r\n    \r\n        protected overrid" +
-                    "e void OnModelCreating(ModelBuilder modelBuilder)\r\n        {\r\n            base.O" +
-                    "nModelCreating(modelBuilder);\r\n            // to do\r\n        }\r\n\r\n");
+                    "e void OnModelCreating(ModelBuilder modelBuilder)\r\n        {\r\n");
+            
+            #line 28 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
+ foreach (var c in _model.Classes) {
+        var uniqueFields = c.Fields.Where(x => x.Unique);
+        foreach (var field in uniqueFields) {
+
+            
+            #line default
+            #line hidden
+            this.Write("            \r\n            modelBuilder.Entity<");
             
             #line 32 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(c.Name));
+            
+            #line default
+            #line hidden
+            this.Write(">().HasIndex(u => u.");
+            
+            #line 32 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(field.Name));
+            
+            #line default
+            #line hidden
+            this.Write(").IsUnique();\r\n");
+            
+            #line 33 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
+
+        }
+} 
+            
+            #line default
+            #line hidden
+            this.Write("        }\r\n\r\n");
+            
+            #line 38 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
  foreach (var @class in _model.Classes) { 
             
             #line default
             #line hidden
             this.Write("        public DbSet<");
             
-            #line 33 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
+            #line 39 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@class.Name));
             
             #line default
             #line hidden
             this.Write("> ");
             
-            #line 33 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
+            #line 39 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@class.Name));
             
             #line default
             #line hidden
             this.Write(" {get; set; }\r\n");
             
-            #line 34 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
+            #line 40 "C:\Users\bahor\source\repos\CrudGen\CrudGen\DataContextTemplate.tt"
  } 
             
             #line default

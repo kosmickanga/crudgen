@@ -25,8 +25,14 @@ namespace <#= _namespace #>.Data
     
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            // to do
+<# foreach (var c in _model.Classes) {
+        var uniqueFields = c.Fields.Where(x => x.Unique);
+        foreach (var field in uniqueFields) {
+#>            
+            modelBuilder.Entity<<#= c.Name #>>().HasIndex(u => u.<#= field.Name #>).IsUnique();
+<#
+        }
+} #>
         }
 
 <# foreach (var @class in _model.Classes) { #>

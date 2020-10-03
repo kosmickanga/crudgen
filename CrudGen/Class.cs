@@ -81,6 +81,6 @@ namespace CrudGen
         public string ReferenceName => Name + "Id";
 
         [XmlAttribute]
-        public string Unique { get; set; }
+        public bool Unique { get; set; }
     }
 }

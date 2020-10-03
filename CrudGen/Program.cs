@@ -41,7 +41,7 @@ namespace CrudGen
                         Fields = new List<Field>
                         {
                             new Field {DataType="int", Name="Id", Required=true, Key=true},
-                            new Field {DataType="string", Name="Name", Required=true, DbType="nvarchar(255)", MaxLength=255}
+                            new Field {DataType="string", Name="Name", Required=true, DbType="nvarchar(255)", MaxLength=255, Unique=true}
                         },
                         Display = "Name"
                     }
