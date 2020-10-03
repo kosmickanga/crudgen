@@ -13,8 +13,11 @@ namespace CrudGen
         private string _gridServiceName;
         private Class _class;
         private string _crudServiceName;
+        private List<Filter> _filters;
+        private string _filterClass;
 
-        public GridViewTemplate(string page, string @namespace, string itemClass, string gridServiceName, string crudServiceName, Class @class)
+        public GridViewTemplate(string page, string @namespace, string itemClass, string gridServiceName, string crudServiceName, Class @class,
+            List<Filter> filters, string filterClass)
         {
             _page = page;
             _namespace = @namespace;
@@ -22,6 +25,8 @@ namespace CrudGen
             _gridServiceName = gridServiceName;
             _class = @class;
             _crudServiceName = crudServiceName;
+            _filters = filters ?? new List<Filter>();
+            _filterClass = filterClass;
         }
 
         private IEnumerable<string> GetRefFieldNames() => _class.Fields.Where(x => x.IsReference).Select(x => x.References).Distinct();

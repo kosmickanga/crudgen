@@ -10,8 +10,36 @@ namespace CrudGen
     public class Model
     {
         public List<Class> Classes { get; set; }
+        public List<View> Views { get; set; }
     }
 
+    public class View
+    {
+        public string Name { get; set; }
+        public List<Filter> Filters { get; set; }
+        public string ClassName { get; set; }
+        // show all columns for now.
+    }
+
+    public class Filter
+    {
+        /// <summary>
+        ///  Description in dropdown
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// value in select dropdown
+        /// </summary>
+        public string Value { get; set; }
+        /// <summary>
+        /// C# code to insert
+        /// </summary>
+        public string Query { get; set; }
+        /// <summary>
+        ///  true if should be available as submenu of View.
+        /// </summary>
+        public bool ShowInNavBar { get; set; }
+    }
 
     public class Class
     {
@@ -51,5 +79,8 @@ namespace CrudGen
         public bool IsReference => !string.IsNullOrEmpty(References);
 
         public string ReferenceName => Name + "Id";
+
+        [XmlAttribute]
+        public string Unique { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -45,6 +46,33 @@ namespace CrudGen
                         Display = "Name"
                     }
                 },
+                Views = new List<View>
+                {
+                    new View
+                    {
+                        ClassName = "Todo",
+                        Name = "Todo",
+                        Filters = new List<Filter>
+                        {
+                            new Filter
+                            {
+                                Name = "All",
+                                Value = "all"
+                            },
+                            new Filter
+                            {
+                                Name = "Done",
+                                Value = "done",
+                                Query = "x => x.Done"
+                            }
+                        }
+                    },
+                    new View
+                    {
+                        ClassName = "Country",
+                        Name = "Country",
+                    }
+                }
             };
 
 
@@ -52,8 +80,8 @@ namespace CrudGen
             sr.Serialize(file, model);
             // https://docs.microsoft.com/en-us/visualstudio/modeling/run-time-text-generation-with-t4-text-templates?view=vs-2019;
 
-            var ns = "TestZ";
-            var rootFolder = @"C:\users\bahor\source\repos\TestZ";
+            var ns = "TestW";
+            var rootFolder = @"C:\users\bahor\source\repos\TestW";
             var appContext = "CrudDbContext";
 
             var template = new ClassModelTemplate(model, ns);
@@ -65,6 +93,7 @@ namespace CrudGen
             Directory.CreateDirectory(dataFolder);
             Directory.CreateDirectory(servicesFolder);
 
+            // Generate class model
             File.WriteAllText(modelDest, content);
             var dcTemplate = new DataContextTemplate(model, ns, appContext);
             var dcContent = dcTemplate.TransformText();
@@ -73,29 +102,62 @@ namespace CrudGen
             var servicesToRegister = new List<string>();
             var navLinks = new List<NavLink>();
 
-            foreach (var m in model.Classes)
+            // Generate grid services
+            foreach (var view in model.Views)
             {
+                var m = model.Classes.First(x => x.Name == view.ClassName);
+
                 var references = m.Fields.Where(x => x.IsReference);
                 var includes = string.Join("", references.Select(r => $".Include(x => x.{r.Name})"));
 
-                var query = $"{m.Name}{includes}.ToList()"; //context.Invoice.Include(x => x.InvoiceLines).Include(x => x.Customer).ToList();
+                var query = $"{m.Name}{includes}"; //context.Invoice.Include(x => x.InvoiceLines).Include(x => x.Customer).ToList();
                 var className = m.Name + "GridService";
-                var gridTemplate = new GridServiceTemplate(ns, className, appContext, m.Name, query, m.Name + "Grid");
+                var gridTemplate = new GridServiceTemplate(ns, className, appContext, m.Name, query, m.Name + "Grid", view.Filters);
                 var dest = Path.Combine(servicesFolder, className + ".cs");
                 var gridServiceContent = gridTemplate.TransformText();
                 File.WriteAllText(dest, gridServiceContent);
                 servicesToRegister.Add(className);
             }
-            foreach (var m in model.Classes)
+
+            // Generate views
+            foreach (var view in model.Views)
             {
+                var m = model.Classes.First(x => x.Name == view.ClassName);
+
                 var pageName = m.Name.ToLower();
-                var gridViewTemplate = new GridViewTemplate($"/{pageName}", ns, m.Name, m.Name + "GridService", m.Name + "CrudService", m);
-                navLinks.Add(new NavLink { Url = pageName, Text = inflector.Pluralize(m.Name) });
+                var filterName = m.Name + "Filter";
+                var gridViewTemplate = new GridViewTemplate($"/{pageName}", ns, m.Name, m.Name + "GridService", m.Name + "CrudService", m, view.Filters, filterName);
+
+                navLinks.Add(new NavLink { Url = pageName, Text = view.Name });
 
                 // add View to avoid class name clash with model in XXX.Data
-                var dest = Path.Combine(rootFolder, "Pages", m.Name + "View.razor");
+                var viewClass = m.Name + "View";
+                var dest = Path.Combine(rootFolder, "Pages", viewClass + ".razor");
                 var gridViewContent = gridViewTemplate.TransformText();
                 File.WriteAllText(dest, gridViewContent);
+                var codeBehindPath = Path.Combine(rootFolder, "Pages", viewClass + ".razor.cs");
+                if (File.Exists(codeBehindPath))
+                {
+                    Console.WriteLine("Not creating file {0} - already exists", codeBehindPath);
+                } else
+                {
+                    var codeBehindTemplate = new GridViewCodeBehindTemplate(ns, viewClass, m.Name);
+                    File.WriteAllText(codeBehindPath, codeBehindTemplate.TransformText());
+                }
+
+                var filterPath = Path.Combine(rootFolder, "Shared", filterName + ".razor");
+                if (view.Filters != null && view.Filters.Any())
+                {
+                    // add a selector at the top
+                    var filterTemplate = new FilterTemplate(view.Filters);
+                    File.WriteAllText(filterPath, filterTemplate.TransformText());
+                } else
+                {
+                    if (File.Exists(filterPath))
+                    {
+                        Console.WriteLine("Please delete unrequired file {0}", filterPath);
+                    }
+                }
             }
             foreach (var m in model.Classes)
             {

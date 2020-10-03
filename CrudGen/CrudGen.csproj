@@ -21,10 +21,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataContextTemplate.tt</DependentUpon>
     </None>
+    <None Include="FilterTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FilterTemplate.tt</DependentUpon>
+    </None>
     <None Include="GridServiceTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>GridServiceTemplate.tt</DependentUpon>
+    </None>
+    <None Include="GridViewCodeBehindTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GridViewCodeBehindTemplate.tt</DependentUpon>
     </None>
     <None Include="GridViewTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -63,10 +73,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataContextTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="FilterTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FilterTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="GridServiceTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>GridServiceTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="GridViewCodeBehindTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GridViewCodeBehindTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="GridViewTemplate.cs">
       <DesignTime>True</DesignTime>
@@ -107,9 +127,17 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DataContextTemplate.cs</LastGenOutput>
     </None>
+    <None Update="FilterTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>FilterTemplate.cs</LastGenOutput>
+    </None>
     <None Update="GridServiceTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>GridServiceTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="GridViewCodeBehindTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GridViewCodeBehindTemplate.cs</LastGenOutput>
     </None>
     <None Update="GridViewTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

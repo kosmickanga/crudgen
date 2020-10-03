@@ -33,12 +33,24 @@ namespace <#= _namespace #>.Services
         {
             _factory = factory;
         }
-        public ItemsDTO<<#=_type #>> GetGridRows(Action<IGridColumnCollection<<#= _type#>>> columns,
+        public async Task<ItemsDTO<<#=_type #>>> GetGridRowsAsync(Action<IGridColumnCollection<<#= _type#>>> columns,
             QueryDictionary<StringValues> query)
         {
             using var context = _factory.CreateDbContext();
-            
-            var items = context.<#=_query #>;
+            var qry = context.<#=_query #>.AsQueryable();
+<# if (_filters != null) { #>
+            string filter = null;
+            if (query.TryGetValue("state", out var filterStrings))
+                filter = filterStrings.ToString();
+
+            switch (filter) 
+            {
+<#   foreach (var f in _filters.Where(qry => !string.IsNullOrEmpty(qry.Query))) {  #>
+                case "<#= f.Value #>": qry = qry.Where(<#= f.Query #>); break;
+<#   } #>
+            }
+<# } #>
+            var items = await qry.ToListAsync();
 
             var server = new GridServer<<#= _type #>>(items, new QueryCollection(query), true, "<#= _gridName #>", columns, 10);
             server.Sortable(true).Filterable(true).WithGridItemsCount();

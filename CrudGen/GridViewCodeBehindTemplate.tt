@@ -1,0 +1,25 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".txt" #>
+
+using CrudGen.Runtime;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using <#= _namespace #>.Data;
+
+namespace <#= _namespace #>.Pages
+{
+    public partial class <#= _viewClass #>
+    {
+        private Task<bool> DoValidateAsync(ValidationArgs validationArgs, <#= _type #> c)
+        {
+            //convert to async if necessary
+            return Task.FromResult(true);
+        }
+    }
+}
