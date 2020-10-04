@@ -26,18 +26,22 @@ namespace CrudGen
         /// <summary>
         ///  Description in dropdown
         /// </summary>
+        [XmlAttribute]
         public string Name { get; set; }
         /// <summary>
         /// value in select dropdown
         /// </summary>
+        [XmlAttribute]
         public string Value { get; set; }
         /// <summary>
         /// C# code to insert
         /// </summary>
+        [XmlAttribute]
         public string Query { get; set; }
         /// <summary>
         ///  true if should be available as submenu of View.
         /// </summary>
+        [XmlAttribute]
         public bool ShowInNavBar { get; set; }
     }
 
