@@ -129,53 +129,62 @@ using ");
             #line default
             #line hidden
             this.Write("            string filter = null;\r\n            if (query.TryGetValue(\"state\", out" +
-                    " var filterStrings))\r\n                filter = filterStrings.ToString();\r\n\r\n    " +
-                    "        switch (filter) \r\n            {\r\n");
+                    " var filterStrings))\r\n                filter = filterStrings.ToString();\r\n");
             
-            #line 48 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-   foreach (var f in _filters.Where(qry => !string.IsNullOrEmpty(qry.Query))) {  
+            #line 45 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+   var filterItems = _filters.Where(qry => !string.IsNullOrEmpty(qry.Query)).ToList();
+     if (filterItems.Any()) { 
+            
+            #line default
+            #line hidden
+            this.Write("            switch (filter) \r\n            {\r\n");
+            
+            #line 49 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+     foreach (var f in filterItems) {  
             
             #line default
             #line hidden
             this.Write("                case \"");
             
-            #line 49 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+            #line 50 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(f.Value));
             
             #line default
             #line hidden
             this.Write("\": qry = qry.Where(");
             
-            #line 49 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+            #line 50 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(f.Query));
             
             #line default
             #line hidden
             this.Write("); break;\r\n");
             
-            #line 50 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
-   } 
+            #line 51 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+     } 
             
             #line default
             #line hidden
-            this.Write("            }\r\n");
+            this.Write("             }\r\n");
             
-            #line 52 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
- } 
+            #line 53 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+ 
+     }
+   } 
             
             #line default
             #line hidden
             this.Write("            var items = await qry.ToListAsync();\r\n\r\n            var server = new " +
                     "GridServer<");
             
-            #line 55 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+            #line 58 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_type));
             
             #line default
             #line hidden
             this.Write(">(items, new QueryCollection(query), true, \"");
             
-            #line 55 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
+            #line 58 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_gridName));
             
             #line default

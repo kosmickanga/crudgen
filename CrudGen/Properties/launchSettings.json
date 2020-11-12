@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CrudGen": {
+      "commandName": "Project",
+      "commandLineArgs": "update -o c:\\temp\\Tests\\TestZZ -n TestZZ --xml c:\\temp\\output.xml"
+    }
+  }
+}

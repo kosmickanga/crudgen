@@ -86,5 +86,8 @@ namespace CrudGen
 
         [XmlAttribute]
         public bool Unique { get; set; }
+
+        [XmlAttribute]
+        public string Format { get; set; }
     }
 }

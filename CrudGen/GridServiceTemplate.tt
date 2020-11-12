@@ -42,14 +42,17 @@ namespace <#= _namespace #>.Services
             string filter = null;
             if (query.TryGetValue("state", out var filterStrings))
                 filter = filterStrings.ToString();
-
+<#   var filterItems = _filters.Where(qry => !string.IsNullOrEmpty(qry.Query)).ToList();
+     if (filterItems.Any()) { #>
             switch (filter) 
             {
-<#   foreach (var f in _filters.Where(qry => !string.IsNullOrEmpty(qry.Query))) {  #>
+<#     foreach (var f in filterItems) {  #>
                 case "<#= f.Value #>": qry = qry.Where(<#= f.Query #>); break;
-<#   } #>
-            }
-<# } #>
+<#     } #>
+             }
+<# 
+     }
+   } #>
             var items = await qry.ToListAsync();
 
             var server = new GridServer<<#= _type #>>(items, new QueryCollection(query), true, "<#= _gridName #>", columns, 10);

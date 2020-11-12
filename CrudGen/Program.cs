@@ -27,7 +27,7 @@ namespace CrudGen
             var updateCommand = new Command("update", "Updates an existing project")
             {
                 new Option<string>(new string[] {"-o", "--output" }, "Project folder") {IsRequired = true },
-                new Option<string>(new string[] {"-n", "--namespace"}, "Namespace"){IsRequired = true },
+                new Option<string>(new string[] {"-n", "--name"}, "Namespace"){IsRequired = true },
                 new Option<string>(new string[] {"-x", "--xml"}, "XML Schema file" ) {IsRequired = true },
             };
             updateCommand.Handler = CommandHandler.Create<string, string, string>(DoUpdate);
@@ -37,6 +37,7 @@ namespace CrudGen
                 new Option<string>(new string[] {"-o", "--output" }, "Output file (eg schema.xml)") {IsRequired = true },
             };
             sampleGenCommand.Handler = CommandHandler.Create<string>(GenSample);
+
             var rootCommand = new RootCommand
             {
                 new Option<string>("--dest-folder"),
@@ -44,7 +45,7 @@ namespace CrudGen
                 updateCommand,
                 new Command("migrations"),
                 new Command("database"),
-                new Command("samplegen")
+                sampleGenCommand
             };
             rootCommand.Description = "CrudGen generates a Blazor Project from a single schema file";
             rootCommand.Handler = CommandHandler.Create<string>((destFolder) =>
@@ -126,6 +127,10 @@ namespace CrudGen
                 RedirectStandardError = true,
                 RedirectStandardOutput = true
             };
+            if (force)
+            {
+                startInfo.ArgumentList.Add("--force");
+            }
 
             using (var proc = System.Diagnostics.Process.Start(startInfo))
             {
@@ -181,13 +186,13 @@ namespace CrudGen
         /// <summary>
         ///  Updates a project
         /// </summary>
-        /// <param name="rootFolder">Project root folder</param>
-        /// <param name="ns">Name (=== namespace)</param>
+        /// <param name="output">Project root folder</param>
+        /// <param name="name">Name (=== namespace)</param>
         /// <param name="xml">XML file what is wanted.</param>
         /// <returns></returns>
-        static int DoUpdate(string rootFolder, string ns, string xml)
+        static int DoUpdate(string output, string name, string xml)
         {
-            Console.WriteLine($"DoNew {rootFolder} {ns} {xml}");
+            Console.WriteLine($"Updating {output} {name} {xml}");
             var sr = new XmlSerializer(typeof(Model));
             using var stream = File.OpenRead(xml);
             var model = (Model) sr.Deserialize(stream);
@@ -199,18 +204,18 @@ namespace CrudGen
 
             var appContext = "CrudDbContext";
 
-            var template = new ClassModelTemplate(model, ns);
+            var template = new ClassModelTemplate(model, name);
             var content = template.TransformText();
-            var dataFolder = Path.Combine(rootFolder, "Data");
+            var dataFolder = Path.Combine(output, "Data");
             var modelDest = Path.Combine(dataFolder, "Model.cs");
-            var servicesFolder = Path.Combine(rootFolder, "Services");
+            var servicesFolder = Path.Combine(output, "Services");
 
             Directory.CreateDirectory(dataFolder);
             Directory.CreateDirectory(servicesFolder);
 
             // Generate class model
             File.WriteAllText(modelDest, content);
-            var dcTemplate = new DataContextTemplate(model, ns, appContext);
+            var dcTemplate = new DataContextTemplate(model, name, appContext);
             var dcContent = dcTemplate.TransformText();
             var dcDest = Path.Combine(dataFolder, "CrudDbContext.cs");
             File.WriteAllText(dcDest, dcContent);
@@ -227,7 +232,7 @@ namespace CrudGen
 
                 var query = $"{m.Name}{includes}"; //context.Invoice.Include(x => x.InvoiceLines).Include(x => x.Customer).ToList();
                 var className = m.Name + "GridService";
-                var gridTemplate = new GridServiceTemplate(ns, className, appContext, m.Name, query, m.Name + "Grid", view.Filters);
+                var gridTemplate = new GridServiceTemplate(name, className, appContext, m.Name, query, m.Name + "Grid", view.Filters);
                 var dest = Path.Combine(servicesFolder, className + ".cs");
                 var gridServiceContent = gridTemplate.TransformText();
                 File.WriteAllText(dest, gridServiceContent);
@@ -241,27 +246,27 @@ namespace CrudGen
 
                 var pageName = m.Name.ToLower();
                 var filterName = m.Name + "Filter";
-                var gridViewTemplate = new GridViewTemplate($"/{pageName}", ns, m.Name, m.Name + "GridService", m.Name + "CrudService", m, view.Filters, filterName);
+                var gridViewTemplate = new GridViewTemplate($"/{pageName}", name, m.Name, m.Name + "GridService", m.Name + "CrudService", m, view.Filters, filterName);
 
                 navLinks.Add(new NavLink { Url = pageName, Text = view.Name });
 
                 // add View to avoid class name clash with model in XXX.Data
                 var viewClass = m.Name + "View";
-                var dest = Path.Combine(rootFolder, "Pages", viewClass + ".razor");
+                var dest = Path.Combine(output, "Pages", viewClass + ".razor");
                 var gridViewContent = gridViewTemplate.TransformText();
                 File.WriteAllText(dest, gridViewContent);
-                var codeBehindPath = Path.Combine(rootFolder, "Pages", viewClass + ".razor.cs");
+                var codeBehindPath = Path.Combine(output, "Pages", viewClass + ".razor.cs");
                 if (File.Exists(codeBehindPath))
                 {
                     Console.WriteLine("Not creating file {0} - already exists", codeBehindPath);
                 }
                 else
                 {
-                    var codeBehindTemplate = new GridViewCodeBehindTemplate(ns, viewClass, m.Name);
+                    var codeBehindTemplate = new GridViewCodeBehindTemplate(name, viewClass, m.Name);
                     File.WriteAllText(codeBehindPath, codeBehindTemplate.TransformText());
                 }
 
-                var filterPath = Path.Combine(rootFolder, "Shared", filterName + ".razor");
+                var filterPath = Path.Combine(output, "Shared", filterName + ".razor");
                 if (view.Filters != null && view.Filters.Any())
                 {
                     // add a selector at the top
@@ -279,7 +284,7 @@ namespace CrudGen
             foreach (var m in model.Classes)
             {
                 var className = m.Name + "CrudService";
-                var crudServiceTemplate = new CrudServiceTemplate(ns, className, appContext, m.Name);
+                var crudServiceTemplate = new CrudServiceTemplate(name, className, appContext, m.Name);
                 var crudServiceContent = crudServiceTemplate.TransformText();
                 var dest = Path.Combine(servicesFolder, className + ".cs");
                 File.WriteAllText(dest, crudServiceContent);
@@ -289,7 +294,7 @@ namespace CrudGen
             {
                 var @class = model.Classes.First(x => x.Name == reference);
                 var className = @class.Name + "LookupService";
-                var lookupServiceTemplate = new LookupServiceTemplate(appContext, ns, className, @class.Key.Name, @class);
+                var lookupServiceTemplate = new LookupServiceTemplate(appContext, name, className, @class.Key.Name, @class);
                 var lsContent = lookupServiceTemplate.TransformText();
                 var dest = Path.Combine(servicesFolder, className + ".cs");
                 File.WriteAllText(dest, lsContent);
@@ -297,13 +302,13 @@ namespace CrudGen
             }
 
             // Service registration with DI container
-            var regTemplate = new CrudServiceRegistrationTemplate(ns, servicesToRegister);
+            var regTemplate = new CrudServiceRegistrationTemplate(name, servicesToRegister);
             var regContent = regTemplate.TransformText();
-            var regCsPath = Path.Combine(rootFolder, "CrudServiceRegistration.cs");
+            var regCsPath = Path.Combine(output, "CrudServiceRegistration.cs");
             File.WriteAllText(regCsPath, regContent);
 
             var navMenuTemplate = new NavMenuTemplate(navLinks);
-            var navMenuPath = Path.Combine(rootFolder, "Shared", "CrudNavMenu.razor");
+            var navMenuPath = Path.Combine(output, "Shared", "CrudNavMenu.razor");
             File.WriteAllText(navMenuPath, navMenuTemplate.TransformText());
 
 
@@ -331,7 +336,7 @@ namespace CrudGen
                             new Field {DataType="string", Name="Text", Required = true, DbType="nvarchar(max)"},
                             new Field {DataType="int", Name="Country", Required = true, References="Country"},
                             new Field {DataType="bool", Name="Done", Required = true},
-                            new Field {DataType="DateTime", Name="DueAt", Required = true},
+                            new Field {DataType="DateTime", Name="DueAt", Required = true, Format="{0:yyyy-MM-dd}"},
                         },
                      },
                     new Class

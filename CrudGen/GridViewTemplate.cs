@@ -139,23 +139,23 @@ namespace CrudGen
             
             #line default
             #line hidden
-            this.Write("    <");
+            this.Write("  @if (_grid.Mode== GridMode.Grid) {\r\n    <");
             
-            #line 43 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 44 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_filterClass));
             
             #line default
             #line hidden
-            this.Write(" State=@State OnStateChanged=@FilterStateChanged /> \r\n");
+            this.Write(" State=@State OnStateChanged=@FilterStateChanged /> \r\n  }\r\n");
             
-            #line 44 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 46 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("   <GridComponent T=\"");
             
-            #line 45 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 47 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
@@ -163,21 +163,21 @@ namespace CrudGen
             this.Write("\" Grid=\"@_grid\" @ref=_gridComponent></GridComponent>\r\n}\r\nelse\r\n{\r\n    <p><em>Load" +
                     "ing...</em></p>\r\n}\r\n\r\n@code {\r\n    private CGrid<");
             
-            #line 53 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 55 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
             #line hidden
             this.Write("> _grid;\r\n    private Task _task;\r\n    private GridComponent<");
             
-            #line 55 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 57 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
             #line hidden
             this.Write("> _gridComponent;\r\n    private bool _initGridComponent;\r\n");
             
-            #line 57 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 59 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
  if (_filters.Any()) { 
             
             #line default
@@ -200,7 +200,7 @@ namespace CrudGen
     }
 ");
             
-            #line 74 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 76 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
  } 
             
             #line default
@@ -218,7 +218,7 @@ namespace CrudGen
 #region Validation
     private bool ValidateItem(ValidationArgs args, ");
             
-            #line 86 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 88 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
@@ -226,14 +226,14 @@ namespace CrudGen
             this.Write(" c) \r\n    {\r\n        // generated code will be inserted here.\r\n        return tru" +
                     "e;\r\n    }\r\n\r\n    private async Task<bool> BeforeUpdate(GridUpdateComponent<");
             
-            #line 92 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 94 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
             #line hidden
             this.Write("> gridComponent, ");
             
-            #line 92 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 94 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
@@ -251,14 +251,14 @@ namespace CrudGen
     }
     private async Task<bool> BeforeInsert(GridCreateComponent<");
             
-            #line 103 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 105 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
             #line hidden
             this.Write("> gridComponent, ");
             
-            #line 103 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 105 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
@@ -276,20 +276,30 @@ namespace CrudGen
     }
 
 #endregion
-
+#region GridModeHandling
+    private GridShared.GridMode _lastMode = GridMode.Grid;
+    Task OnAfterRender(GridComponent<Todo> component, bool firstRender) {
+        // the view may show information relating to the grid, but the grid has gone
+        if (component.Mode != _lastMode) {
+            _lastMode = _grid.Mode;
+            StateHasChanged();
+        }
+        return Task.CompletedTask;
+    }
+#endregion
 
     protected override async Task OnParametersSetAsync()
     {
         Action<IGridColumnCollection<");
             
-            #line 120 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 132 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
             #line hidden
             this.Write(">> columns = c =>\r\n        {\r\n");
             
-            #line 122 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 134 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
  foreach (var f in _class.Fields) 
 { 
             
@@ -297,14 +307,14 @@ namespace CrudGen
             #line hidden
             this.Write("            ");
             
-            #line 124 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 136 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenerateColumn(f)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 125 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 137 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
  } 
             
             #line default
@@ -312,21 +322,29 @@ namespace CrudGen
             this.Write("        };\r\n\r\n        var query = new QueryDictionary<StringValues>();\r\n        q" +
                     "uery.Add(\"grid-page\", \"2\");\r\n\r\n        var client = new GridClient<");
             
-            #line 131 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 143 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
             #line hidden
             this.Write(">(q => GridService.GetGridRowsAsync(columns, q), query, false, \"");
             
-            #line 131 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
+            #line 143 "C:\Users\bahor\source\repos\CrudGen\CrudGen\GridViewTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_itemClass));
             
             #line default
             #line hidden
-            this.Write("Grid\", columns);\r\n        client.Sortable(true).Filterable(true).Crud(true, CrudS" +
-                    "ervice);\r\n        _grid = client.Grid;\r\n\r\n        // Set new items to grid\r\n    " +
-                    "    _task = client.UpdateGrid();\r\n        await _task;\r\n    }\r\n}\r\n");
+            this.Write(@"Grid"", columns);
+        client.Sortable(true).Filterable(true).Crud(true, CrudService);
+        _grid = client.Grid;
+        _grid.OnAfterRender += OnAfterRender;
+
+        // Set new items to grid
+        _task = client.UpdateGrid();
+        await _task;
+    }
+}
+");
             return this.GenerationEnvironment.ToString();
         }
     }

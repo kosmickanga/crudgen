@@ -67,7 +67,8 @@ namespace CrudGen
             }
             else
             {
-                var result = $"c.Add(o => o.{f.Name}){(f.Key ? ".SetPrimaryKey(true)" : "")};";
+                string format = !string.IsNullOrEmpty(f.Format) ? $".Format(\"{f.Format}\")" : string.Empty;
+                var result = $"c.Add(o => o.{f.Name}){format}{(f.Key ? ".SetPrimaryKey(true)" : "")};";
                 return result;
             }
         }

@@ -31,7 +31,7 @@ namespace CrudGen
             this.Write(@"
    <select value=@State @onchange=@DoStuff>
         <option value=""done"" >Done</option>
-        <option value="""">All</option>
+        <option value=""all"">All</option>
     </select>
 
 @code {

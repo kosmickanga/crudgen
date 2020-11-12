@@ -40,7 +40,9 @@ CrudGen V<#= Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionA
 @if (_task.IsCompleted)
 {
 <# if (_filters.Any()) { #>
+  @if (_grid.Mode== GridMode.Grid) {
     <<#= _filterClass #> State=@State OnStateChanged=@FilterStateChanged /> 
+  }
 <# } #>
    <GridComponent T="<#= _itemClass #>" Grid="@_grid" @ref=_gridComponent></GridComponent>
 }
@@ -113,7 +115,17 @@ else
     }
 
 #endregion
-
+#region GridModeHandling
+    private GridShared.GridMode _lastMode = GridMode.Grid;
+    Task OnAfterRender(GridComponent<Todo> component, bool firstRender) {
+        // the view may show information relating to the grid, but the grid has gone
+        if (component.Mode != _lastMode) {
+            _lastMode = _grid.Mode;
+            StateHasChanged();
+        }
+        return Task.CompletedTask;
+    }
+#endregion
 
     protected override async Task OnParametersSetAsync()
     {
@@ -131,6 +143,7 @@ else
         var client = new GridClient<<#= _itemClass #>>(q => GridService.GetGridRowsAsync(columns, q), query, false, "<#= _itemClass #>Grid", columns);
         client.Sortable(true).Filterable(true).Crud(true, CrudService);
         _grid = client.Grid;
+        _grid.OnAfterRender += OnAfterRender;
 
         // Set new items to grid
         _task = client.UpdateGrid();
